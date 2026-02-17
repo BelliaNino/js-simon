@@ -1,20 +1,13 @@
-console.log('it works');
-
 const countdownEl = document.getElementById('countdown')//countdown
-
 const instrEl = document.getElementById('instructions')//Istruzioni del gioco
-
 const numListEl = document.getElementById('numbers-list')//lista dei numeri casuali 
-
 const formEl = document.getElementById('answers-form')//input per l'utente
-
 const btnEl = document.querySelector('.btn')//btn per verificare esito
-
 const esiText = document.getElementById('message')//mess esito
 
 const user = document.querySelectorAll('.form-control')
 
-let timer = 5//countdounw
+let timer = 30//countdounw
 
 //creare una funzione per generare 5 numeri casuali
 function randomNum() {
@@ -38,6 +31,7 @@ for (let i = 0; i < numbers.length; i++) {
   numListEl.innerHTML += `<li>${numbers[i]}</li>`
 }
 
+//settare il countdown
 const intervalloId = setInterval(function () {
 
   timer--
@@ -57,27 +51,31 @@ const intervalloId = setInterval(function () {
 }, 1000)
 
 
-//inserire i numeri utenti in un array 
-formEl.addEventListener(`submit`, function (e) {
-  e.preventDefault()
+//inserire i numeri utenti in un array
 
+btnEl.addEventListener('click', function (e) {
+  e.preventDefault()
   let userInput = []
+
   for (let i = 0; i < user.length; i++) {
     userInput.push(parseInt(user[i].value));
   }
 
-  console.log(userInput);
+  // Utilizzo un ciclo dentro un altro ciclo per confrontare i numeri delle due array in tutte le posizioni
+  // mi aiuto con count per tenere traccia di quante volte ho trovato una corrispondenza
 
-})
+  let count = 0;
+  for (let i = 0; i < numbers.length; i++) {
+    for (let j = 0; j < userInput.length; j++) {
+      if (numbers[i] === userInput[j]) {
+        count++;
+        break;
+      }
+    }
+  }
 
-
-
-btnEl.addEventListener('click', function () {
-
-})
-
-
-
+  esiText.innerHTML = `Hai indovinato, ${count}, numeri!`;
+});
 
 
 
